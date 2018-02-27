@@ -1,2 +1,3 @@
 rootProject.name = 'java.logging.learning'
+include 'example'
 
