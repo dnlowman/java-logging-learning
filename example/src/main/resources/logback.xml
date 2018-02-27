@@ -1,0 +1,51 @@
+<configuration>
+
+    <appender name="stash" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+        <file>file.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/some/path/to/your/file.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <!--<fieldNames>-->
+            <!--&lt;!&ndash;<version>[ignore]</version>&ndash;&gt;-->
+            <!--&lt;!&ndash;<message>details</message>&ndash;&gt;-->
+            <!--&lt;!&ndash;<logger>[ignore]</logger>&ndash;&gt;-->
+            <!--&lt;!&ndash;<levelValue>[ignore]</levelValue>&ndash;&gt;-->
+            <!--&lt;!&ndash;<stackTrace>[ignore]</stackTrace>&ndash;&gt;-->
+            <!--&lt;!&ndash;<thread>threadName</thread>&ndash;&gt;-->
+            <!--&lt;!&ndash;<tags>[ignore]</tags>&ndash;&gt;-->
+            <!--</fieldNames>-->
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                            "time": "%date{ISO8601}",
+                            "details": "%message",
+                            "threadName": "%thread",
+                            "activityId": "%mdc{activityId}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+            <!--<fieldNames>-->
+                <!--<timestamp>time</timestamp>-->
+                <!--<version>[ignore]</version>-->
+                <!--<message>details</message>-->
+                <!--<logger>[ignore]</logger>-->
+                <!--<levelValue>[ignore]</levelValue>-->
+                <!--<stackTrace>[ignore]</stackTrace>-->
+                <!--<thread>threadName</thread>-->
+                <!--<tags>[ignore]</tags>-->
+            <!--</fieldNames>-->
+            <!--<includeMdcKeyName>activityId</includeMdcKeyName>-->
+        </encoder>
+    </appender>
+
+    <root level="trace">
+        <appender-ref ref="stash" />
+    </root>
+</configuration>
